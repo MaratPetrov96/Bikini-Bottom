@@ -1,0 +1,32 @@
+{% extends 'NewsBase.html' %}
+{% block title %}
+{{n.title}}
+{% endblock %}
+{% block content %}
+<tr>
+<td>
+<h2>{{n.title}}</h2>
+<h4>{{n.date.date()}}</h4>
+<img src='/news/{{n.id}}.jpg' width='250' height='110'>
+{% autoescape false %}
+{% if cur.role=='admin' %}
+<textarea rows='15' cols='60'>{{n.content}}</textarea>
+{% else %}
+{{'<p>'+n.content.replace('\r\n\r\n','</p><p>')+'</p>'}}
+{% endif %}
+{% endautoescape %}
+{% if cur.is_authenticated %}
+<form action='/{{n.id}}/comment' method='POST'>
+<textarea rows='4' cols='45' name='comment'></textarea>
+<input type='submit' value='Отправить'>
+</form>
+{% endif %}
+{% for c in coms %}
+<div class='comment'>
+<h6>{{c.User.name}}</h6>
+<p>{{c.Comment.content}}</p>
+</div>
+{% endfor %}
+</td>
+</tr>
+{% endblock %}

@@ -1,0 +1,116 @@
+<html>
+<head>
+<style type='text/css'>
+.one{
+margin-top: 20px;
+}
+.preview *{
+display: block;
+overflow: hidden;
+}
+.one div,img{
+display:block;
+}
+.block{
+margin-left:150px;
+}
+body{
+width:80%;
+}
+.top *{
+display: inline;
+margin-right:20px;
+}
+.main{
+margin-left:90px;
+margin-top:40px;
+}
+.comment{
+border: 2px groove black;
+width: 50%;
+margin-top: 15px;
+}
+.pages{
+margin-top: 50px;
+}
+</style>
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" 
+integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<title>
+{% block title %}
+{% endblock %}
+</title>
+</head>
+<body>
+<div class='main'>
+<div class='top'>
+<a href='/'><img src='/news/main.png' width='257' height='89'></a>
+<a href='/'>Main</a>
+{% for i in themes %}
+<a href='/{{i.title.lower()}}'>{{i.title}}</a>
+{% endfor %}
+{% if not cur.is_authenticated %}
+<a href='/sign'>Sign in</a>
+{% endif %}
+</div>
+<table>
+<tr>
+<td>
+<table>
+<tbody>
+{% if not cur.is_authenticated %}
+<form action='/login' method='POST'>
+<tr>
+<td>Username</td>
+<td><input type='text' name='name'></td>
+</tr>
+<tr>
+<td>Password</td>
+<td><input type='password' name='password'></td>
+</tr>
+<tr>
+<td><input type='submit' value='Login'></td>
+</tr>
+</form>
+{% else %}
+<tr>
+<td>{{cur.name}}</td>
+</tr>
+<form action='/logout' method='POST'>
+<input type='submit' value='Logout'>
+</form>
+{% if cur.role=='admin' %}
+<form action='/sign' method='POST'>
+<tr>
+<td>Username</td><td><input type='text' name='name'></td>
+</tr>
+<tr>
+<td>Password</td>
+<td><input type='password' name='password'></td>
+</tr>
+<tr>
+<td><input type='submit' value='Add admin'></td>
+</tr>
+</form>
+<form action='/admin/record'>
+<tr>
+<td><input type='submit' value='New article'></td>
+</tr>
+</form>
+{% endif %}
+{% endif %}
+</tbody>
+</table>
+</td>
+<td>
+<table border="0" align="center" cellpadding="0" cellspacing="0" class='block'>
+{% block content %}
+{% endblock %}
+</table>
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

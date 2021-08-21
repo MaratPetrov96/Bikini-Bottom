@@ -1,0 +1,15 @@
+{% extends 'NewsBase.html' %}
+{% block title %}
+Новая запись
+{% endblock %}
+{% block content %}
+<form action='/add' method='POST' enctype='multipart/form-data'>
+<table>
+<tr><td><input type='text' name='title'></td></tr>
+<tr><td><input type='file' name='image' accept='image/*'></td></tr>
+<tr><td>{{select.colls}}</td></tr>
+<tr><td><textarea name='text' rows='9' cols='60'></textarea></td></tr>
+<tr><td><input type='submit' value='Добавить'></td></tr>
+</table>
+</form>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'NewsBase.html' %}
+{% block title %}
+Bikini Bottom News
+{% endblock %}
+{% block content %}
+{% autoescape false %}
+{% for i in n.items %}
+<tr>
+<td>
+<div class='one'>
+<img src='/news/{{i.id}}.jpg' width='200' height='96'>
+<div class='preview'>
+<a href='/news/{{i.id}}'>{{i.title}}</a>
+<span>{{ i.content.split('\r\n\r\n')[0] }}...<a href='/news/{{i.id}}'>More</a></span>
+</div>
+</div>
+</td>
+</tr>
+{% endfor %}
+<tr><td>
+<div class='pages'>
+{% if n.has_prev %}
+<a href='/{{n-1}}'></a>
+{% endif %}
+<span>{{n.page}}</span>
+{% if n.has_next %}
+<a href='/{{n.page+1}}'></a>
+{% endif %}
+{% if mx>n.page+1 %}
+{% if mx>n.page+2 %}
+<span>...</span>
+{% endif %}
+<a href='/{{mx}}'></a>
+{% endif %}
+</div>
+</td></tr>
+{% endautoescape %}
+{% endblock %}
